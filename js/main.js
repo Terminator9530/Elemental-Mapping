@@ -139,6 +139,53 @@ document.getElementById("load").onclick = function () {
         img.height="500";
         document.getElementById("myCanvas").height = img.height;
         document.getElementById("myCanvas").width = img.width;
+        setTimeout(() => {
+            for(let i = 1; i < polygon1.length; i++) {
+                ctx.moveTo(polygon1[i-1][0],polygon1[i-1][1]);
+                ctx.lineTo(polygon1[i][0],polygon1[i][1]);
+                ctx.stroke();
+            }
+            for(let i = 1; i < polygon2.length; i++) {
+                ctx.moveTo(polygon2[i-1][0],polygon2[i-1][1]);
+                ctx.lineTo(polygon2[i][0],polygon2[i][1]);
+                ctx.stroke();
+            }
+            for(let i = 1; i < polygon3.length; i++) {
+                ctx.moveTo(polygon3[i-1][0],polygon3[i-1][1]);
+                ctx.lineTo(polygon3[i][0],polygon3[i][1]);
+                ctx.stroke();
+            }
+            for(let i = 1; i < polygon7.length; i++) {
+                ctx.moveTo(polygon7[i-1][0],polygon7[i-1][1]);
+                ctx.lineTo(polygon7[i][0],polygon7[i][1]);
+                ctx.stroke();
+            }
+            for(let i = 1; i < polygon4.length; i++) {
+                ctx.moveTo(polygon4[i-1][0],polygon4[i-1][1]);
+                ctx.lineTo(polygon4[i][0],polygon4[i][1]);
+                ctx.stroke();
+            }
+            for(let i = 1; i < polygon8.length; i++) {
+                ctx.moveTo(polygon8[i-1][0],polygon8[i-1][1]);
+                ctx.lineTo(polygon8[i][0],polygon8[i][1]);
+                ctx.stroke();
+            }
+            for(let i = 1; i < polygon5.length; i++) {
+                ctx.moveTo(polygon5[i-1][0],polygon5[i-1][1]);
+                ctx.lineTo(polygon5[i][0],polygon5[i][1]);
+                ctx.stroke();
+            }
+            for(let i = 1; i < polygon9.length; i++) {
+                ctx.moveTo(polygon9[i-1][0],polygon9[i-1][1]);
+                ctx.lineTo(polygon9[i][0],polygon9[i][1]);
+                ctx.stroke();
+            }
+            for(let i = 1; i < polygon6.length; i++) {
+                ctx.moveTo(polygon6[i-1][0],polygon6[i-1][1]);
+                ctx.lineTo(polygon6[i][0],polygon6[i][1]);
+                ctx.stroke();
+            }
+        }, 100);
     };
     img.id = "img1";
     if (opt == 1) {
@@ -192,7 +239,7 @@ function getMousePos1(canvas, evt, a) {
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 var flag = 0;
-var posprev, prosnext,opt;
+var posprev, prosnext,opt,temp;
 function draw(evt) {
     if (temp == 1) {
         
@@ -212,6 +259,7 @@ function draw(evt) {
         document.getElementById("graph").disabled = false;
         var pos = getMousePos(canvas, evt);
         console.log(pos);
+        temp=pos;
         ctx.beginPath();
         ctx.fillStyle = "#fad905";
         ctx.arc(pos.x, pos.y, 5, 0, 2 * Math.PI);
@@ -272,6 +320,16 @@ function draw(evt) {
     }
 }
 
+var polygon1 = [[-0.4,0.8],[174,0.8],[166,78],[80,152],[2,156]];
+var polygon2=[[133,104],[166,78],[173,1.4],[400,0.8],[426,100],[332,147],[246,141],[133,104]];
+var polygon3=[[425,99],[498,137],[578,64],[594,0.8],[400,0.8]];
+var polygon7=[[576,63],[567,169],[555,242],[682,385]];
+var polygon4=[[2,156],[78,154],[70,400],[-0.4,430]];
+var polygon8=[[70,400],[244,383],[308,498]];
+var polygon5=[[256,142],[300,270],[242,382],[70,400],[78,154],[133,104]];
+var polygon9=[[241,381],[394,359],[470,388],[473,498]];
+var polygon6=[[256,142],[300,270],[242,382],[394,359],[470,388],[553,240],[574,65],[498,137],[425,99],[332,147]];
+
 /*--------------------Toast-------------------------*/
 
 var tWrapper = $("#toast-wrapper"), ti = 0;
@@ -300,9 +358,32 @@ document.getElementById("graph").onclick = function () {
     document.getElementById("myCanvas").style.display = "none";
     if(opt==1)
     {
-        var items=["gs1.png","gs2.png","gs3.png","gs4.png","gs5.png","gs6.png","gs7.png"]
-        var item = items[Math.floor(Math.random()*items.length)];
-        img.src = "./images/"+item;
+        // var items=["gs1.png","gs2.png","gs3.png","gs4.png","gs5.png","gs6.png","gs7.png"]
+        // var item = items[Math.floor(Math.random()*items.length)];
+        // img.src = "./images/"+item;
+        var pos=temp;
+        console.log("Pos : ",pos);
+        if(inside([pos.x,pos.y],polygon1))
+        showToast("Region 1");
+        else if(inside([pos.x,pos.y],polygon2))
+        showToast("Region 2");
+        else if(inside([pos.x,pos.y],polygon3))
+        showToast("Region 3");
+        else if(inside([pos.x,pos.y],polygon4))
+        showToast("Region 4");
+        else if(inside([pos.x,pos.y],polygon5))
+        showToast("Region 5");
+        else if(inside([pos.x,pos.y],polygon6))
+        showToast("Region 6");
+        else if(inside([pos.x,pos.y],polygon7))
+        showToast("Region 7");
+        else if(inside([pos.x,pos.y],polygon8))
+        showToast("Region 8");
+        else if(inside([pos.x,pos.y],polygon9))
+        showToast("Region 9");
+        else
+        showToast("Region 10");
+
     }
     else if(opt==2)
     {
@@ -325,6 +406,27 @@ document.getElementById("graph").onclick = function () {
         if(volFlag)
         textToSpeech("Program Task Is now activated");
     }
+}
+
+function inside(point, vs) {
+    // ray-casting algorithm based on
+    // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+
+    var x = point[0], y = point[1];
+
+    var inside = false;
+    for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+        var xi = vs[i][0], yi = vs[i][1];
+        var xj = vs[j][0], yj = vs[j][1];
+
+        var intersect = ((yi > y) != (yj > y))
+            && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        if (intersect) inside = !inside;
+    }
+    
+    console.log(inside);
+
+    return inside;
 }
 
 
@@ -373,3 +475,10 @@ document.getElementById("ptask").onclick=function(){
     document.getElementById("container1").style.display="block";
     document.getElementById("container2").style.display="none";
 }
+
+$( "#myCanvas" ).mousemove(
+    function(evt) {
+        var pos=getMousePos(canvas,evt);
+        console.log(pos);
+    }
+  );
