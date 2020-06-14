@@ -125,80 +125,143 @@ document.getElementById("exec").onclick = function () {
 
 /*--------------------load-------------------------*/
 
-var img;
 $(document).ready(function(){
-    img = document.createElement('img');
     $(window).resize(function(){
-        document.getElementById("myCanvas").height = img.height;
-        document.getElementById("myCanvas").width = img.width;
+        // document.getElementById("myCanvas").height = img.height;
+        // document.getElementById("myCanvas").width = img.width;
     });
   });
+
 document.getElementById("load").onclick = function () {
     var opt = document.getElementById("selOptSample").value;
-    img.onload = () => {
-        img.height="500";
-        document.getElementById("myCanvas").height = img.height;
-        document.getElementById("myCanvas").width = img.width;
-        setTimeout(() => {
-            for(let i = 1; i < polygon1.length; i++) {
-                ctx.moveTo(polygon1[i-1][0],polygon1[i-1][1]);
-                ctx.lineTo(polygon1[i][0],polygon1[i][1]);
-                ctx.stroke();
-            }
-            for(let i = 1; i < polygon2.length; i++) {
-                ctx.moveTo(polygon2[i-1][0],polygon2[i-1][1]);
-                ctx.lineTo(polygon2[i][0],polygon2[i][1]);
-                ctx.stroke();
-            }
-            for(let i = 1; i < polygon3.length; i++) {
-                ctx.moveTo(polygon3[i-1][0],polygon3[i-1][1]);
-                ctx.lineTo(polygon3[i][0],polygon3[i][1]);
-                ctx.stroke();
-            }
-            for(let i = 1; i < polygon7.length; i++) {
-                ctx.moveTo(polygon7[i-1][0],polygon7[i-1][1]);
-                ctx.lineTo(polygon7[i][0],polygon7[i][1]);
-                ctx.stroke();
-            }
-            for(let i = 1; i < polygon4.length; i++) {
-                ctx.moveTo(polygon4[i-1][0],polygon4[i-1][1]);
-                ctx.lineTo(polygon4[i][0],polygon4[i][1]);
-                ctx.stroke();
-            }
-            for(let i = 1; i < polygon8.length; i++) {
-                ctx.moveTo(polygon8[i-1][0],polygon8[i-1][1]);
-                ctx.lineTo(polygon8[i][0],polygon8[i][1]);
-                ctx.stroke();
-            }
-            for(let i = 1; i < polygon5.length; i++) {
-                ctx.moveTo(polygon5[i-1][0],polygon5[i-1][1]);
-                ctx.lineTo(polygon5[i][0],polygon5[i][1]);
-                ctx.stroke();
-            }
-            for(let i = 1; i < polygon9.length; i++) {
-                ctx.moveTo(polygon9[i-1][0],polygon9[i-1][1]);
-                ctx.lineTo(polygon9[i][0],polygon9[i][1]);
-                ctx.stroke();
-            }
-            for(let i = 1; i < polygon6.length; i++) {
-                ctx.moveTo(polygon6[i-1][0],polygon6[i-1][1]);
-                ctx.lineTo(polygon6[i][0],polygon6[i][1]);
-                ctx.stroke();
-            }
-        }, 100);
-    };
-    img.id = "img1";
+    var stage = new Konva.Stage({
+        container: 'imgSeen',
+        width: 700,
+        height: 500,
+      });
+
+    var layer = new Konva.Layer();
+    var poly1 = new Konva.Line({
+        points: canvasPolygon1,
+        fill: '#00D2FF',
+        stroke: 'black',
+        strokeWidth: 5,
+        closed: true,
+      });
+
+      // add the shape to the layer
+      layer.add(poly1);
+
+      var poly2 = new Konva.Line({
+        points: canvasPolygon2,
+        fill: 'red',
+        stroke: 'black',
+        strokeWidth: 5,
+        closed: true,
+      });
+
+      // add the shape to the layer
+      layer.add(poly2);
+
+      var poly3 = new Konva.Line({
+        points: canvasPolygon3,
+        fill: '#00D2FF',
+        stroke: 'black',
+        strokeWidth: 5,
+        closed: true,
+      });
+
+      // add the shape to the layer
+      layer.add(poly3);
+
+      var poly4 = new Konva.Line({
+        points: canvasPolygon4,
+        fill: '#00D2FF',
+        stroke: 'black',
+        strokeWidth: 5,
+        closed: true,
+      });
+
+      // add the shape to the layer
+      layer.add(poly4);
+
+      var poly5 = new Konva.Line({
+        points: canvasPolygon5,
+        fill: 'red',
+        stroke: 'black',
+        strokeWidth: 5,
+        closed: true,
+      });
+
+      // add the shape to the layer
+      layer.add(poly5);
+
+      var poly6 = new Konva.Line({
+        points: canvasPolygon6,
+        fill: '#00D2FF',
+        stroke: 'black',
+        strokeWidth: 5,
+        closed: true,
+      });
+
+      // add the shape to the layer
+      layer.add(poly6);
+
+
+      var poly7 = new Konva.Line({
+        points: canvasPolygon7,
+        fill: 'red',
+        stroke: 'black',
+        strokeWidth: 5,
+        closed: true,
+      });
+
+      // add the shape to the layer
+      layer.add(poly7);
+
+      var poly8 = new Konva.Line({
+        points: canvasPolygon8,
+        fill: '#00D2FF',
+        stroke: 'black',
+        strokeWidth: 5,
+        closed: true,
+      });
+
+      // add the shape to the layer
+      layer.add(poly8);
+
+      var poly9 = new Konva.Line({
+        points: canvasPolygon9,
+        fill: 'red',
+        stroke: 'black',
+        strokeWidth: 5,
+        closed: true,
+      });
+
+      // add the shape to the layer
+      layer.add(poly9);
+
+      var poly10 = new Konva.Line({
+        points: canvasPolygon10,
+        fill: 'red',
+        stroke: 'black',
+        strokeWidth: 5,
+        closed: true,
+      });
+
+      // add the shape to the layer
+      layer.add(poly10);
+
+      // add the layer to the stage
+      stage.add(layer);
     if (opt == 1) {
         document.getElementById("myCanvas").style.display = "block";
-        img.src = "./images/imgS1.png";
     }
     else if (opt == 2) {
         document.getElementById("myCanvas").style.display = "block";
-        img.src = "./images/imgS1.png";
     }
     else if (opt == 3) {
         document.getElementById("myCanvas").style.display = "block";
-        img.src = "./images/imgS1.png";
     }
     else if (opt == 0) {
         showToast("Please Select The Sample");
@@ -215,7 +278,6 @@ document.getElementById("load").onclick = function () {
         if(volFlag)
         textToSpeech("Now Select The Mode");
     }
-    document.getElementById('imgSeen').appendChild(img);
 }
 
 
@@ -321,14 +383,25 @@ function draw(evt) {
 }
 
 var polygon1 = [[-0.4,0.8],[174,0.8],[166,78],[80,152],[2,156]];
-var polygon2=[[133,104],[166,78],[173,1.4],[400,0.8],[426,100],[332,147],[246,141],[133,104]];
+var canvasPolygon1=[-0.4,0.8,174,0.8,166,78,80,152,2,156];
+var polygon2=[[133,104],[166,78],[173,1.4],[400,0.8],[426,100],[332,147],[246,141],[165,79]];
+var canvasPolygon2=[133,104,166,78,173,1.4,400,0.8,426,100,332,147,246,141,165,79];
 var polygon3=[[425,99],[498,137],[578,64],[594,0.8],[400,0.8]];
-var polygon7=[[576,63],[567,169],[555,242],[682,385]];
+var canvasPolygon3=[425,99,498,137,578,64,594,0.8,400,0.8];
+var polygon7=[[683,393],[505,324],[553,240],[578,64],[594,0.8],[683,0.8]];
+var canvasPolygon7=[683,393,505,324,553,240,578,64,594,0.8,683,0.8];
 var polygon4=[[2,156],[78,154],[70,400],[-0.4,430]];
-var polygon8=[[70,400],[244,383],[308,498]];
-var polygon5=[[256,142],[300,270],[242,382],[70,400],[78,154],[133,104]];
-var polygon9=[[241,381],[394,359],[470,388],[473,498]];
-var polygon6=[[256,142],[300,270],[242,382],[394,359],[470,388],[553,240],[574,65],[498,137],[425,99],[332,147]];
+var canvasPolygon4=[2,156,78,154,70,400,-0.4,430];
+var polygon8=[[0,430],[70,400],[308,498],[2,498]];
+var canvasPolygon8=[0,430,70,400,308,498,2,498];
+var polygon5=[[246,141],[300,270],[242,382],[70,400],[78,154],[165,79]];
+var canvasPolygon5=[246,141,300,270,242,382,70,400,78,154,165,79];
+var polygon9=[[317,500],[70,400],[394,359],[470,388],[473,498]];
+var canvasPolygon9=[317,500,70,400,394,359,470,388,473,498];
+var polygon6=[[246,141],[300,270],[242,382],[394,359],[470,388],[553,240],[578,61],[498,137],[425,99],[332,147]];
+var canvasPolygon6=[246,141,300,270,242,382,394,359,470,388,553,240,578,61,498,137,425,99,332,147];
+var polygon10=[[683,496],[473,498],[470,388],[505,324],[683,393]];
+var canvasPolygon10=[683,496,473,498,470,388,505,324,683,393];
 
 /*--------------------Toast-------------------------*/
 
@@ -381,7 +454,7 @@ document.getElementById("graph").onclick = function () {
         showToast("Region 8");
         else if(inside([pos.x,pos.y],polygon9))
         showToast("Region 9");
-        else
+        else if(inside([pos.x,pos.y],polygon10))
         showToast("Region 10");
 
     }
