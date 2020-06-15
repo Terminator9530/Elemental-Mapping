@@ -154,7 +154,7 @@ document.getElementById("load").onclick = function () {
 
       var poly2 = new Konva.Line({
         points: canvasPolygon2,
-        fill: 'red',
+        fill: '#a8df65',
         stroke: 'black',
         strokeWidth: 5,
         closed: true,
@@ -187,7 +187,7 @@ document.getElementById("load").onclick = function () {
 
       var poly5 = new Konva.Line({
         points: canvasPolygon5,
-        fill: 'red',
+        fill: '#a8df65',
         stroke: 'black',
         strokeWidth: 5,
         closed: true,
@@ -210,7 +210,7 @@ document.getElementById("load").onclick = function () {
 
       var poly7 = new Konva.Line({
         points: canvasPolygon7,
-        fill: 'red',
+        fill: '#a8df65',
         stroke: 'black',
         strokeWidth: 5,
         closed: true,
@@ -232,7 +232,7 @@ document.getElementById("load").onclick = function () {
 
       var poly9 = new Konva.Line({
         points: canvasPolygon9,
-        fill: 'red',
+        fill: '#a8df65',
         stroke: 'black',
         strokeWidth: 5,
         closed: true,
@@ -243,7 +243,7 @@ document.getElementById("load").onclick = function () {
 
       var poly10 = new Konva.Line({
         points: canvasPolygon10,
-        fill: 'red',
+        fill: '#a8df65',
         stroke: 'black',
         strokeWidth: 5,
         closed: true,
@@ -431,31 +431,34 @@ document.getElementById("graph").onclick = function () {
     document.getElementById("myCanvas").style.display = "none";
     if(opt==1)
     {
-        // var items=["gs1.png","gs2.png","gs3.png","gs4.png","gs5.png","gs6.png","gs7.png"]
-        // var item = items[Math.floor(Math.random()*items.length)];
-        // img.src = "./images/"+item;
         var pos=temp;
-        console.log("Pos : ",pos);
-        if(inside([pos.x,pos.y],polygon1))
-        showToast("Region 1");
-        else if(inside([pos.x,pos.y],polygon2))
-        showToast("Region 2");
-        else if(inside([pos.x,pos.y],polygon3))
-        showToast("Region 3");
-        else if(inside([pos.x,pos.y],polygon4))
-        showToast("Region 4");
-        else if(inside([pos.x,pos.y],polygon5))
-        showToast("Region 5");
-        else if(inside([pos.x,pos.y],polygon6))
-        showToast("Region 6");
-        else if(inside([pos.x,pos.y],polygon7))
-        showToast("Region 7");
-        else if(inside([pos.x,pos.y],polygon8))
-        showToast("Region 8");
-        else if(inside([pos.x,pos.y],polygon9))
-        showToast("Region 9");
-        else if(inside([pos.x,pos.y],polygon10))
-        showToast("Region 10");
+        if(inside([pos.x,pos.y],polygon1)||inside([pos.x,pos.y],polygon3)||inside([pos.x,pos.y],polygon4)||inside([pos.x,pos.y],polygon6)||inside([pos.x,pos.y],polygon8)){
+            document.getElementById("percentage-A").value="100%";
+            document.getElementById("percentage-B").value="0%";
+        }else{
+            document.getElementById("percentage-A").value="0%";
+            document.getElementById("percentage-B").value="100%";
+        }
+        // if(inside([pos.x,pos.y],polygon1))
+        // showToast("Region 1");
+        // else if(inside([pos.x,pos.y],polygon2))
+        // showToast("Region 2");
+        // else if(inside([pos.x,pos.y],polygon3))
+        // showToast("Region 3");
+        // else if(inside([pos.x,pos.y],polygon4))
+        // showToast("Region 4");
+        // else if(inside([pos.x,pos.y],polygon5))
+        // showToast("Region 5");
+        // else if(inside([pos.x,pos.y],polygon6))
+        // showToast("Region 6");
+        // else if(inside([pos.x,pos.y],polygon7))
+        // showToast("Region 7");
+        // else if(inside([pos.x,pos.y],polygon8))
+        // showToast("Region 8");
+        // else if(inside([pos.x,pos.y],polygon9))
+        // showToast("Region 9");
+        // else if(inside([pos.x,pos.y],polygon10))
+        // showToast("Region 10");
 
     }
     else if(opt==2)
