@@ -20,6 +20,7 @@ function removeClass(ele, cls) {
 
 const typeSpeed = 100;
 var timerId, typeTarget = $("#typer");
+
 function type(txt, cur = 0) {
     if (cur == txt.length) {
         timerId = -1;
@@ -32,8 +33,7 @@ function type(txt, cur = 0) {
     if (txt.charAt(cur) == "@") {
         var br = document.createElement('br');
         typeTarget.append(br);
-    }
-    else
+    } else
         typeTarget.append(txt.charAt(cur));
     timerId = setTimeout(type, typeSpeed, txt, cur + 1);
 }
@@ -42,103 +42,40 @@ type("1. Please Select The Image@2. Please Load The Image@3. Please Select The M
 
 /*-----------------------volume-------------------------*/
 
-var volFlag=1;
-$("#vol").click(function(){
-    if(volFlag){
-        volFlag=0;
+var volFlag = 1;
+$("#vol").click(function () {
+    if (volFlag) {
+        volFlag = 0;
         $("#vol").removeClass("fa fa-volume-up");
         $("#vol").addClass("fa fa-volume-mute");
-    }
-    else{
-        volFlag=1;
+    } else {
+        volFlag = 1;
         $("#vol").removeClass("fa fa-volume-mute");
         $("#vol").addClass("fa fa-volume-up");
     }
 });
 
-var x = 0;
-document.getElementById("selOpt").onchange = function () {
-    x = document.getElementById("selOpt").value;
-}
 var flag = 0;
 var temp = 0;
-document.getElementById("exec").disabled = true;
-addClass(document.getElementById("exec"), "out");
-document.getElementById("graph").disabled = true;
-addClass(document.getElementById("graph"), "out");
-document.getElementById("ptask").disabled = true;
-addClass(document.getElementById("ptask"), "out");
+var materialButton = 0,
+    mode = 0;
 
-/*--------------------execute-------------------------*/
-
-document.getElementById("exec").onclick = function () {
-    if (x == 0) {
-        showToast("Please Select The Mode");
-        if(volFlag)
-        textToSpeech("Please Select The Mode");
-        return;
-    }
-    else if (x == 1) {
-
-        showToast("Please Make The Spot");
-        if(volFlag)
-        textToSpeech("Please Make The Spot");
-    }
-    else if (x == 2) {
-        showToast("Please Make The Line");
-        if(volFlag)
-        textToSpeech("Please Make The Line");
-    }
-    else if (x == 3) {
-
-        document.getElementById("selectMode").style.display = "block";//blue,red,green
-        if ((document.getElementById("mode").value == "") && (flag == 0)) {
-            showToast("Please Enter The Area");
-            if(volFlag)
-            textToSpeech("Please Enter The Area");
-            flag = 1;
-        }
-        else if ((document.getElementById("mode").value == "") && (flag == 1)) {
-            showToast("Please Enter The Area");
-            if(volFlag)
-            textToSpeech("Please Enter The Area");
-        }
-        else {
-            showToast("Please Make The Area");
-            if(volFlag)
-            textToSpeech("Please Make The Area");
-            addClass(document.getElementById("exec"), "out");
-            document.getElementById("exec").disabled = true;
-            document.getElementById("graph").disabled = true;
-            addClass(document.getElementById("graph"), "out");
-        }
-    }
-    if ((x != 0) && (x != 3)) {
-        document.getElementById("exec").disabled = true;
-        addClass(document.getElementById("exec"), "out");
-        document.getElementById("graph").disabled = true;
-        addClass(document.getElementById("graph"), "out");
-    }
-    console.log(flag);
+function ModeGroup(type) {
+    if (type === "enable")
+        type = false
+    else
+        type = true
+    document.getElementById("spot").disabled = type;
+    document.getElementById("line").disabled = type;
+    document.getElementById("area").disabled = type;
 }
 
-
-/*--------------------load-------------------------*/
-
-$(document).ready(function(){
-    $(window).resize(function(){
-        // document.getElementById("myCanvas").height = img.height;
-        // document.getElementById("myCanvas").width = img.width;
-    });
-  });
-
-document.getElementById("load").onclick = function () {
-    var opt = document.getElementById("selOptSample").value;
+function drawCanvas() {
     var stage = new Konva.Stage({
         container: 'imgSeen',
         width: 700,
         height: 500,
-      });
+    });
 
     var layer = new Konva.Layer();
     var poly1 = new Konva.Line({
@@ -147,136 +84,241 @@ document.getElementById("load").onclick = function () {
         stroke: 'black',
         strokeWidth: 5,
         closed: true,
-      });
+    });
 
-      // add the shape to the layer
-      layer.add(poly1);
+    // add the shape to the layer
+    layer.add(poly1);
 
-      var poly2 = new Konva.Line({
+    var poly2 = new Konva.Line({
         points: canvasPolygon2,
         fill: '#a8df65',
         stroke: 'black',
         strokeWidth: 5,
         closed: true,
-      });
+    });
 
-      // add the shape to the layer
-      layer.add(poly2);
+    // add the shape to the layer
+    layer.add(poly2);
 
-      var poly3 = new Konva.Line({
+    var poly3 = new Konva.Line({
         points: canvasPolygon3,
         fill: '#00D2FF',
         stroke: 'black',
         strokeWidth: 5,
         closed: true,
-      });
+    });
 
-      // add the shape to the layer
-      layer.add(poly3);
+    // add the shape to the layer
+    layer.add(poly3);
 
-      var poly4 = new Konva.Line({
+    var poly4 = new Konva.Line({
         points: canvasPolygon4,
         fill: '#00D2FF',
         stroke: 'black',
         strokeWidth: 5,
         closed: true,
-      });
+    });
 
-      // add the shape to the layer
-      layer.add(poly4);
+    // add the shape to the layer
+    layer.add(poly4);
 
-      var poly5 = new Konva.Line({
+    var poly5 = new Konva.Line({
         points: canvasPolygon5,
         fill: '#a8df65',
         stroke: 'black',
         strokeWidth: 5,
         closed: true,
-      });
+    });
 
-      // add the shape to the layer
-      layer.add(poly5);
+    // add the shape to the layer
+    layer.add(poly5);
 
-      var poly6 = new Konva.Line({
+    var poly6 = new Konva.Line({
         points: canvasPolygon6,
         fill: '#00D2FF',
         stroke: 'black',
         strokeWidth: 5,
         closed: true,
-      });
+    });
 
-      // add the shape to the layer
-      layer.add(poly6);
+    // add the shape to the layer
+    layer.add(poly6);
 
 
-      var poly7 = new Konva.Line({
+    var poly7 = new Konva.Line({
         points: canvasPolygon7,
         fill: '#a8df65',
         stroke: 'black',
         strokeWidth: 5,
         closed: true,
-      });
+    });
 
-      // add the shape to the layer
-      layer.add(poly7);
+    // add the shape to the layer
+    layer.add(poly7);
 
-      var poly8 = new Konva.Line({
+    var poly8 = new Konva.Line({
         points: canvasPolygon8,
         fill: '#00D2FF',
         stroke: 'black',
         strokeWidth: 5,
         closed: true,
-      });
+    });
 
-      // add the shape to the layer
-      layer.add(poly8);
+    // add the shape to the layer
+    layer.add(poly8);
 
-      var poly9 = new Konva.Line({
+    var poly9 = new Konva.Line({
         points: canvasPolygon9,
         fill: '#a8df65',
         stroke: 'black',
         strokeWidth: 5,
         closed: true,
-      });
+    });
 
-      // add the shape to the layer
-      layer.add(poly9);
+    // add the shape to the layer
+    layer.add(poly9);
 
-      var poly10 = new Konva.Line({
+    var poly10 = new Konva.Line({
         points: canvasPolygon10,
         fill: '#a8df65',
         stroke: 'black',
         strokeWidth: 5,
         closed: true,
-      });
+    });
 
-      // add the shape to the layer
-      layer.add(poly10);
+    // add the shape to the layer
+    layer.add(poly10);
+    // add the layer to the stage
+    stage.add(layer);
+}
 
-      // add the layer to the stage
-      stage.add(layer);
+/*------------------------Start config---------------------------*/
+
+document.getElementById("exec").disabled = true;
+addClass(document.getElementById("exec"), "out");
+document.getElementById("calc").disabled = true;
+addClass(document.getElementById("calc"), "out");
+ModeGroup("disable");
+
+/*------------------------material select----------------------*/
+
+document.getElementById("material1").onclick = function () {
+    addClass(document.getElementById("material1"), "out");
+    document.getElementById("material1").disabled = true;
+    materialButton = 1;
+    showToast("Now click on Load button to load sample");
+    if (volFlag)
+        textToSpeech("Now click on Load button to load sample");
+    flag = 1;
+
+}
+
+/*------------------------mode select----------------------*/
+
+document.getElementById("spot").onclick = function () {
+    $("#spot").addClass("btn-dark");
+    $("#line").removeClass("btn-dark");
+    $("#area").removeClass("btn-dark");
+    mode = 1;
+}
+
+document.getElementById("line").onclick = function () {
+    $("#spot").removeClass("btn-dark");
+    $("#line").addClass("btn-dark");
+    $("#area").removeClass("btn-dark");
+    mode = 2;
+}
+
+document.getElementById("area").onclick = function () {
+    $("#spot").removeClass("btn-dark");
+    $("#line").removeClass("btn-dark");
+    $("#area").addClass("btn-dark");
+    mode = 3;
+}
+
+/*--------------------execute-------------------------*/
+
+document.getElementById("exec").onclick = function () {
+    if (mode == 0) {
+        showToast("Please Select The Mode");
+        if (volFlag)
+            textToSpeech("Please Select The Mode");
+        return;
+    } else if (mode == 1) {
+
+        showToast("Please Make The Spot");
+        if (volFlag)
+            textToSpeech("Please Make The Spot");
+    } else if (mode == 2) {
+        showToast("Please Make The Line");
+        if (volFlag)
+            textToSpeech("Please Make The Line");
+    } else if (mode == 3) {
+
+        document.getElementById("selectMode").style.display = "block"; //blue,red,green
+        if ((document.getElementById("mode").value == "") && (flag == 0)) {
+            showToast("Please Enter The Area");
+            if (volFlag)
+                textToSpeech("Please Enter The Area");
+            flag = 1;
+        } else if ((document.getElementById("mode").value == "") && (flag == 1)) {
+            showToast("Please Enter The Area");
+            if (volFlag)
+                textToSpeech("Please Enter The Area");
+        } else {
+            showToast("Please Make The Area");
+            if (volFlag)
+                textToSpeech("Please Make The Area");
+            addClass(document.getElementById("exec"), "out");
+            document.getElementById("exec").disabled = true;
+            document.getElementById("calc").disabled = true;
+            addClass(document.getElementById("calc"), "out");
+        }
+    }
+    if ((mode != 0) && (mode != 3)) {
+        document.getElementById("exec").disabled = true;
+        addClass(document.getElementById("exec"), "out");
+        document.getElementById("calc").disabled = true;
+        addClass(document.getElementById("calc"), "out");
+        ModeGroup("disable");
+    }
+}
+
+
+/*--------------------load-------------------------*/
+
+$(document).ready(function () {
+    $(window).resize(function () {
+        // document.getElementById("myCanvas").height = img.height;
+        // document.getElementById("myCanvas").width = img.width;
+    });
+});
+
+document.getElementById("load").onclick = function () {
+    var opt = materialButton;
     if (opt == 1) {
         document.getElementById("myCanvas").style.display = "block";
-    }
-    else if (opt == 2) {
+    } else if (opt == 2) {
         document.getElementById("myCanvas").style.display = "block";
-    }
-    else if (opt == 3) {
+    } else if (opt == 3) {
         document.getElementById("myCanvas").style.display = "block";
-    }
-    else if (opt == 0) {
+    } else if (opt == 0) {
         showToast("Please Select The Sample");
-        if(volFlag)
-        textToSpeech("Please Select The Sample");
+        if (volFlag)
+            textToSpeech("Please Select The Sample");
         return;
     }
     if (opt != 0) {
+        document.getElementById("sample").style.display="";
+        ModeGroup("enable");
         addClass(document.getElementById("load"), "out");
         document.getElementById("load").disabled = true;
         removeClass(document.getElementById("exec"), "out");
         document.getElementById("exec").disabled = false;
         showToast("Now Select The Mode");
-        if(volFlag)
-        textToSpeech("Now Select The Mode");
+        if (volFlag)
+            textToSpeech("Now Select The Mode");
+        drawCanvas();
     }
 }
 
@@ -290,6 +332,7 @@ function getMousePos(canvas, evt) {
         y: evt.clientY - rect.top
     };
 }
+
 function getMousePos1(canvas, evt, a) {
     var rect = canvas.getBoundingClientRect();
     return {
@@ -301,27 +344,27 @@ function getMousePos1(canvas, evt, a) {
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 var flag = 0;
-var posprev, prosnext,opt,temp;
+var posprev, prosnext, opt, tempPos;
+
 function draw(evt) {
     if (temp == 1) {
-        
-        showToast("Now Make The Graph");
-        if(volFlag)
-        textToSpeech("Now Make The Graph");
+
+        showToast("Now click on calculate button to show result");
+        if (volFlag)
+            textToSpeech("Now click on calculate button to show result");
         return;
     }
-    opt = document.getElementById("selOpt").value;
+    opt = mode;
     if (opt == 1) {
-        
-        showToast("Now Make The Graph");
-        if(volFlag)
-        textToSpeech("Now Make The Graph");
+
+        showToast("Now click on calculate button to show result");
+        if (volFlag)
+            textToSpeech("Now click on calculate button to show result");
         temp = 1;
-        removeClass(document.getElementById("graph"), "out");
-        document.getElementById("graph").disabled = false;
+        removeClass(document.getElementById("calc"), "out");
+        document.getElementById("calc").disabled = false;
         var pos = getMousePos(canvas, evt);
-        console.log(pos);
-        temp=pos;
+        tempPos = pos;
         ctx.beginPath();
         ctx.fillStyle = "#fad905";
         ctx.arc(pos.x, pos.y, 5, 0, 2 * Math.PI);
@@ -329,22 +372,19 @@ function draw(evt) {
         ctx.stroke();
         canvas.disabled = true;
         addClass(canvas, "out1");
-    }
-    else if (opt == 2) {
+    } else if (opt == 2) {
         flag++;
-        if (flag == 1)
-        {
-            
+        if (flag == 1) {
+
             posprev = getMousePos(canvas, evt);
-        }
-        else {
-            
-        showToast("Now Make The Graph");
-        if(volFlag)
-        textToSpeech("Now Make The Graph");
+        } else {
+
+            showToast("Now click on calculate button to show result");
+            if (volFlag)
+                textToSpeech("Now click on calculate button to show result");
             temp = 1;
-            removeClass(document.getElementById("graph"), "out");
-            document.getElementById("graph").disabled = false;
+            removeClass(document.getElementById("calc"), "out");
+            document.getElementById("calc").disabled = false;
             posnext = getMousePos(canvas, evt);
             flag = 0;
             ctx.moveTo(posprev.x, posprev.y);
@@ -354,15 +394,13 @@ function draw(evt) {
             canvas.disabled = true;
             addClass(canvas, "out1");
         }
-        console.log(flag);
-    }
-    else if (opt == 3) {
-        showToast("Now Make The Graph");
-        if(volFlag)
-        textToSpeech("Now Make The Graph");
+    } else if (opt == 3) {
+        showToast("Now click on calculate button to show result");
+        if (volFlag)
+            textToSpeech("Now click on calculate button to show result");
         temp = 1;
-        removeClass(document.getElementById("graph"), "out");
-        document.getElementById("graph").disabled = false;
+        removeClass(document.getElementById("calc"), "out");
+        document.getElementById("calc").disabled = false;
         var area = parseInt(document.getElementById("mode").value);
         var a;
         a = Math.sqrt(area);
@@ -374,38 +412,107 @@ function draw(evt) {
         ctx.stroke();
         canvas.disabled = true;
         addClass(canvas, "out1");
-    }
-    else if (opt == 0) {
+    } else if (opt == 0) {
         showToast("Please Enter the mode");
-        if(volFlag)
-        textToSpeech("Please Enter The Mode");
+        if (volFlag)
+            textToSpeech("Please Enter The Mode");
     }
 }
 
-var polygon1 = [[-0.4,0.8],[174,0.8],[166,78],[80,152],[2,156]];
-var canvasPolygon1=[-0.4,0.8,174,0.8,166,78,80,152,2,156];
-var polygon2=[[133,104],[166,78],[173,1.4],[400,0.8],[426,100],[332,147],[246,141],[165,79]];
-var canvasPolygon2=[133,104,166,78,173,1.4,400,0.8,426,100,332,147,246,141,165,79];
-var polygon3=[[425,99],[498,137],[578,64],[594,0.8],[400,0.8]];
-var canvasPolygon3=[425,99,498,137,578,64,594,0.8,400,0.8];
-var polygon7=[[683,393],[505,324],[553,240],[578,64],[594,0.8],[683,0.8]];
-var canvasPolygon7=[683,393,505,324,553,240,578,64,594,0.8,683,0.8];
-var polygon4=[[2,156],[78,154],[70,400],[-0.4,430]];
-var canvasPolygon4=[2,156,78,154,70,400,-0.4,430];
-var polygon8=[[0,430],[70,400],[308,498],[2,498]];
-var canvasPolygon8=[0,430,70,400,308,498,2,498];
-var polygon5=[[246,141],[300,270],[242,382],[70,400],[78,154],[165,79]];
-var canvasPolygon5=[246,141,300,270,242,382,70,400,78,154,165,79];
-var polygon9=[[317,500],[70,400],[394,359],[470,388],[473,498]];
-var canvasPolygon9=[317,500,70,400,394,359,470,388,473,498];
-var polygon6=[[246,141],[300,270],[242,382],[394,359],[470,388],[553,240],[578,61],[498,137],[425,99],[332,147]];
-var canvasPolygon6=[246,141,300,270,242,382,394,359,470,388,553,240,578,61,498,137,425,99,332,147];
-var polygon10=[[683,496],[473,498],[470,388],[505,324],[683,393]];
-var canvasPolygon10=[683,496,473,498,470,388,505,324,683,393];
+var polygon1 = [
+    [-0.4, 0.8],
+    [174, 0.8],
+    [166, 78],
+    [80, 152],
+    [2, 156]
+];
+var canvasPolygon1 = [-0.4, 0.8, 174, 0.8, 166, 78, 80, 152, 2, 156];
+var polygon2 = [
+    [133, 104],
+    [166, 78],
+    [173, 1.4],
+    [400, 0.8],
+    [426, 100],
+    [332, 147],
+    [246, 141],
+    [165, 79]
+];
+var canvasPolygon2 = [133, 104, 166, 78, 173, 1.4, 400, 0.8, 426, 100, 332, 147, 246, 141, 165, 79];
+var polygon3 = [
+    [425, 99],
+    [498, 137],
+    [578, 64],
+    [594, 0.8],
+    [400, 0.8]
+];
+var canvasPolygon3 = [425, 99, 498, 137, 578, 64, 594, 0.8, 400, 0.8];
+var polygon7 = [
+    [683, 393],
+    [505, 324],
+    [553, 240],
+    [578, 64],
+    [594, 0.8],
+    [683, 0.8]
+];
+var canvasPolygon7 = [683, 393, 505, 324, 553, 240, 578, 64, 594, 0.8, 683, 0.8];
+var polygon4 = [
+    [2, 156],
+    [78, 154],
+    [70, 400],
+    [-0.4, 430]
+];
+var canvasPolygon4 = [2, 156, 78, 154, 70, 400, -0.4, 430];
+var polygon8 = [
+    [0, 430],
+    [70, 400],
+    [308, 498],
+    [2, 498]
+];
+var canvasPolygon8 = [0, 430, 70, 400, 308, 498, 2, 498];
+var polygon5 = [
+    [246, 141],
+    [300, 270],
+    [242, 382],
+    [70, 400],
+    [78, 154],
+    [165, 79]
+];
+var canvasPolygon5 = [246, 141, 300, 270, 242, 382, 70, 400, 78, 154, 165, 79];
+var polygon9 = [
+    [317, 500],
+    [70, 400],
+    [394, 359],
+    [470, 388],
+    [473, 498]
+];
+var canvasPolygon9 = [317, 500, 70, 400, 394, 359, 470, 388, 473, 498];
+var polygon6 = [
+    [246, 141],
+    [300, 270],
+    [242, 382],
+    [394, 359],
+    [470, 388],
+    [553, 240],
+    [578, 61],
+    [498, 137],
+    [425, 99],
+    [332, 147]
+];
+var canvasPolygon6 = [246, 141, 300, 270, 242, 382, 394, 359, 470, 388, 553, 240, 578, 61, 498, 137, 425, 99, 332, 147];
+var polygon10 = [
+    [683, 496],
+    [473, 498],
+    [470, 388],
+    [505, 324],
+    [683, 393]
+];
+var canvasPolygon10 = [683, 496, 473, 498, 470, 388, 505, 324, 683, 393];
 
 /*--------------------Toast-------------------------*/
 
-var tWrapper = $("#toast-wrapper"), ti = 0;
+var tWrapper = $("#toast-wrapper"),
+    ti = 0;
+
 function showToast(msg, type1 = 0) {
     tWrapper.append(`<div id="t${ti++}" class="toast${type1 == 1 ? ' danger' : (type1 == 2 ? ' success' : '')}" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
@@ -427,60 +534,28 @@ function showToast(msg, type1 = 0) {
 
 /*--------------------graph-------------------------*/
 
-document.getElementById("graph").onclick = function () {
-    document.getElementById("myCanvas").style.display = "none";
-    if(opt==1)
-    {
-        var pos=temp;
-        if(inside([pos.x,pos.y],polygon1)||inside([pos.x,pos.y],polygon3)||inside([pos.x,pos.y],polygon4)||inside([pos.x,pos.y],polygon6)||inside([pos.x,pos.y],polygon8)){
-            document.getElementById("percentage-A").value="100%";
-            document.getElementById("percentage-B").value="0%";
-        }else{
-            document.getElementById("percentage-A").value="0%";
-            document.getElementById("percentage-B").value="100%";
+document.getElementById("calc").onclick = function () {
+    if (opt == 1) {
+        var pos = tempPos;
+        if (inside([pos.x, pos.y], polygon1) || inside([pos.x, pos.y], polygon3) || inside([pos.x, pos.y], polygon4) || inside([pos.x, pos.y], polygon6) || inside([pos.x, pos.y], polygon8)) {
+            document.getElementById("percentage-A").value = "100%";
+            document.getElementById("percentage-B").value = "0%";
+        } else {
+            document.getElementById("percentage-A").value = "0%";
+            document.getElementById("percentage-B").value = "100%";
         }
-        // if(inside([pos.x,pos.y],polygon1))
-        // showToast("Region 1");
-        // else if(inside([pos.x,pos.y],polygon2))
-        // showToast("Region 2");
-        // else if(inside([pos.x,pos.y],polygon3))
-        // showToast("Region 3");
-        // else if(inside([pos.x,pos.y],polygon4))
-        // showToast("Region 4");
-        // else if(inside([pos.x,pos.y],polygon5))
-        // showToast("Region 5");
-        // else if(inside([pos.x,pos.y],polygon6))
-        // showToast("Region 6");
-        // else if(inside([pos.x,pos.y],polygon7))
-        // showToast("Region 7");
-        // else if(inside([pos.x,pos.y],polygon8))
-        // showToast("Region 8");
-        // else if(inside([pos.x,pos.y],polygon9))
-        // showToast("Region 9");
-        // else if(inside([pos.x,pos.y],polygon10))
-        // showToast("Region 10");
 
-    }
-    else if(opt==2)
-    {
-        var items=["gl1.png","gl2.png","gl3.png"]
-        var item = items[Math.floor(Math.random()*items.length)];
-        img.src = "./images/"+item;
-    }
-    else if(opt==3)
-    {
-        var items=["ga1.png","ga2.png"]
-        var item = items[Math.floor(Math.random()*items.length)];
-        img.src = "./images/"+item;
+    } else if (opt == 2) {
+        
+    } else if (opt == 3) {
+        
     }
     if (temp == 1) {
-        document.getElementById("graph").disabled = true;
-        addClass(document.getElementById("graph"), "out");
-        document.getElementById("ptask").disabled =false;
-        removeClass(document.getElementById("ptask"), "out");
-        showToast("Program Task Is now activated",2);
+        showToast("Now see result in output tab");
         if(volFlag)
-        textToSpeech("Program Task Is now activated");
+            textToSpeech("Now see result in output tab");
+        document.getElementById("calc").disabled = true;
+        addClass(document.getElementById("calc"), "out");
     }
 }
 
@@ -488,19 +563,20 @@ function inside(point, vs) {
     // ray-casting algorithm based on
     // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
 
-    var x = point[0], y = point[1];
+    var x = point[0],
+        y = point[1];
 
     var inside = false;
     for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
-        var xi = vs[i][0], yi = vs[i][1];
-        var xj = vs[j][0], yj = vs[j][1];
+        var xi = vs[i][0],
+            yi = vs[i][1];
+        var xj = vs[j][0],
+            yj = vs[j][1];
 
-        var intersect = ((yi > y) != (yj > y))
-            && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        var intersect = ((yi > y) != (yj > y)) &&
+            (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
         if (intersect) inside = !inside;
     }
-    
-    console.log(inside);
 
     return inside;
 }
@@ -544,17 +620,6 @@ function textToSpeech(text) {
     // speak
     window.speechSynthesis.speak(utter);
 }
-document.getElementById("rest").onclick=function(){
+document.getElementById("rest").onclick = function () {
     window.location.reload(true);
 }
-document.getElementById("ptask").onclick=function(){
-    document.getElementById("container1").style.display="block";
-    document.getElementById("container2").style.display="none";
-}
-
-$( "#myCanvas" ).mousemove(
-    function(evt) {
-        var pos=getMousePos(canvas,evt);
-        console.log(pos);
-    }
-  );
