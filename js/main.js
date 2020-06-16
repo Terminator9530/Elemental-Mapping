@@ -38,7 +38,7 @@ function type(txt, cur = 0) {
     timerId = setTimeout(type, typeSpeed, txt, cur + 1);
 }
 // type("this is test")
-type("1. Please Select The Image@2. Please Load The Image@3. Please Select The Mode");
+type("1. Firstly choose the material@2. Then click the load button to load the material@3. Then choose the mode spot,line or area@4. Then click on execute button to proceed@5. Then make the spot,line or area depending upon your selection@6. Lastly click on calculate button to show result");
 
 /*-----------------------volume-------------------------*/
 
@@ -276,6 +276,7 @@ document.getElementById("exec").onclick = function () {
         }
     }
     if ((mode != 0) && (mode != 3)) {
+        document.getElementById("myCanvas").style.display = "block";
         document.getElementById("exec").disabled = true;
         addClass(document.getElementById("exec"), "out");
         document.getElementById("calc").disabled = true;
@@ -296,13 +297,7 @@ $(document).ready(function () {
 
 document.getElementById("load").onclick = function () {
     var opt = materialButton;
-    if (opt == 1) {
-        document.getElementById("myCanvas").style.display = "block";
-    } else if (opt == 2) {
-        document.getElementById("myCanvas").style.display = "block";
-    } else if (opt == 3) {
-        document.getElementById("myCanvas").style.display = "block";
-    } else if (opt == 0) {
+    if (opt == 0) {
         showToast("Please Select The Sample");
         if (volFlag)
             textToSpeech("Please Select The Sample");
