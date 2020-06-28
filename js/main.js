@@ -533,11 +533,11 @@ document.getElementById("calc").onclick = function () {
     if (opt == 1) {
         var pos = tempPos;
         if (inside([pos.x, pos.y], polygon1) || inside([pos.x, pos.y], polygon3) || inside([pos.x, pos.y], polygon4) || inside([pos.x, pos.y], polygon6) || inside([pos.x, pos.y], polygon8)) {
-            document.getElementById("percentage-A").value = "100%";
-            document.getElementById("percentage-B").value = "0%";
-        } else {
             document.getElementById("percentage-A").value = "0%";
             document.getElementById("percentage-B").value = "100%";
+        } else {
+            document.getElementById("percentage-A").value = "100%";
+            document.getElementById("percentage-B").value = "0%";
         }
 
     } else if (opt == 2) {
