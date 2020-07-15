@@ -80,8 +80,8 @@ function drawCanvas() {
     var layer = new Konva.Layer();
     var poly1 = new Konva.Line({
         points: canvasPolygon1,
-        fill: '#00D2FF',
-        stroke: 'black',
+        fill: '#000000',
+        stroke: 'red',
         strokeWidth: 5,
         closed: true,
     });
@@ -91,8 +91,8 @@ function drawCanvas() {
 
     var poly2 = new Konva.Line({
         points: canvasPolygon2,
-        fill: '#a8df65',
-        stroke: 'black',
+        fill: '#ebe9e6',
+        stroke: 'red',
         strokeWidth: 5,
         closed: true,
     });
@@ -102,8 +102,8 @@ function drawCanvas() {
 
     var poly3 = new Konva.Line({
         points: canvasPolygon3,
-        fill: '#00D2FF',
-        stroke: 'black',
+        fill: '#000000',
+        stroke: 'red',
         strokeWidth: 5,
         closed: true,
     });
@@ -113,8 +113,8 @@ function drawCanvas() {
 
     var poly4 = new Konva.Line({
         points: canvasPolygon4,
-        fill: '#00D2FF',
-        stroke: 'black',
+        fill: '#000000',
+        stroke: 'red',
         strokeWidth: 5,
         closed: true,
     });
@@ -124,8 +124,8 @@ function drawCanvas() {
 
     var poly5 = new Konva.Line({
         points: canvasPolygon5,
-        fill: '#a8df65',
-        stroke: 'black',
+        fill: '#ebe9e6',
+        stroke: 'red',
         strokeWidth: 5,
         closed: true,
     });
@@ -135,8 +135,8 @@ function drawCanvas() {
 
     var poly6 = new Konva.Line({
         points: canvasPolygon6,
-        fill: '#00D2FF',
-        stroke: 'black',
+        fill: '#000000',
+        stroke: 'red',
         strokeWidth: 5,
         closed: true,
     });
@@ -147,8 +147,8 @@ function drawCanvas() {
 
     var poly7 = new Konva.Line({
         points: canvasPolygon7,
-        fill: '#a8df65',
-        stroke: 'black',
+        fill: '#ebe9e6',
+        stroke: 'red',
         strokeWidth: 5,
         closed: true,
     });
@@ -158,8 +158,8 @@ function drawCanvas() {
 
     var poly8 = new Konva.Line({
         points: canvasPolygon8,
-        fill: '#00D2FF',
-        stroke: 'black',
+        fill: '#000000',
+        stroke: 'red',
         strokeWidth: 5,
         closed: true,
     });
@@ -169,8 +169,8 @@ function drawCanvas() {
 
     var poly9 = new Konva.Line({
         points: canvasPolygon9,
-        fill: '#a8df65',
-        stroke: 'black',
+        fill: '#ebe9e6',
+        stroke: 'red',
         strokeWidth: 5,
         closed: true,
     });
@@ -180,8 +180,8 @@ function drawCanvas() {
 
     var poly10 = new Konva.Line({
         points: canvasPolygon10,
-        fill: '#a8df65',
-        stroke: 'black',
+        fill: '#ebe9e6',
+        stroke: 'red',
         strokeWidth: 5,
         closed: true,
     });
