@@ -370,7 +370,6 @@ function draw(evt) {
         addClass(canvas, "out1");
     } else if (opt == 2) {
         newFlag++;
-        console.log(newFlag);
         if (newFlag == 1) {
             posprev = getMousePos(canvas, evt);
         } else {
@@ -390,7 +389,6 @@ function draw(evt) {
             addClass(canvas, "out1");
         }
     } else if (opt == 3) {
-        console.log("option 3");
         showToast("Now click on calculate button to show result");
         if (volFlag)
             textToSpeech("Now click on calculate button to show result");
@@ -555,8 +553,8 @@ document.getElementById("calc").onclick = function () {
                 countA++;
             }
         }
-        document.getElementById("percentage-A").value = `${countA / (countA + countB) * 100}`;
-        document.getElementById("percentage-B").value = `${countB / (countA + countB) * 100}`;
+        document.getElementById("percentage-A").value = `${countA / (countA + countB) * 100}%`;
+        document.getElementById("percentage-B").value = `${countB / (countA + countB) * 100}%`;
     } else if (opt == 3) {
         let side = Math.sqrt(parseInt(document.getElementById("mode").value));
         let center = tempPos;
@@ -570,8 +568,8 @@ document.getElementById("calc").onclick = function () {
                 }
             }
         }
-        document.getElementById("percentage-A").value = `${countA / (countA + countB) * 100}`;
-        document.getElementById("percentage-B").value = `${countB / (countA + countB) * 100}`;
+        document.getElementById("percentage-A").value = `${countA / (countA + countB) * 100}%`;
+        document.getElementById("percentage-B").value = `${countB / (countA + countB) * 100}%`;
     }
     if (temp == 1) {
         showToast("Now see result in output tab");
