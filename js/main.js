@@ -272,6 +272,7 @@ document.getElementById("exec").onclick = function () {
             addClass(document.getElementById("exec"), "out");
             document.getElementById("exec").disabled = true;
             document.getElementById("calc").disabled = true;
+            document.getElementById("myCanvas").style.display = "block";
             addClass(document.getElementById("calc"), "out");
         }
     }
@@ -338,7 +339,7 @@ function getMousePos1(canvas, evt, a) {
 //put this outside the event loop..
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
-var posprev, prosnext, opt, tempPos;
+var posprev, posnext, opt, tempPos;
 var newFlag = 0;
 
 function draw(evt) {
@@ -389,6 +390,7 @@ function draw(evt) {
             addClass(canvas, "out1");
         }
     } else if (opt == 3) {
+        console.log("option 3");
         showToast("Now click on calculate button to show result");
         if (volFlag)
             textToSpeech("Now click on calculate button to show result");
@@ -399,6 +401,7 @@ function draw(evt) {
         var a;
         a = Math.sqrt(area);
         var pos = getMousePos1(canvas, evt, a);
+        tempPos = pos;
         ctx.beginPath();
         ctx.fillStyle = "#fad905";
         ctx.rect(pos.x, pos.y, a, a);
@@ -555,7 +558,20 @@ document.getElementById("calc").onclick = function () {
         document.getElementById("percentage-A").value = `${countA / (countA + countB) * 100}`;
         document.getElementById("percentage-B").value = `${countB / (countA + countB) * 100}`;
     } else if (opt == 3) {
-        
+        let side = Math.sqrt(parseInt(document.getElementById("mode").value));
+        let center = tempPos;
+        let countA=0,countB=0;
+        for(y=center.y;y<=center.y+side;y++){
+            for(x=center.x;x<=center.x+side;x++){
+                if (inside([x, y], polygon1) || inside([x, y], polygon3) || inside([x, y], polygon4) || inside([x, y], polygon6) || inside([x, y], polygon8)) {
+                    countB++;
+                } else {
+                    countA++;
+                }
+            }
+        }
+        document.getElementById("percentage-A").value = `${countA / (countA + countB) * 100}`;
+        document.getElementById("percentage-B").value = `${countB / (countA + countB) * 100}`;
     }
     if (temp == 1) {
         showToast("Now see result in output tab");
