@@ -338,8 +338,8 @@ function getMousePos1(canvas, evt, a) {
 //put this outside the event loop..
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
-var flag = 0;
 var posprev, prosnext, opt, tempPos;
+var newFlag = 0;
 
 function draw(evt) {
     if (temp == 1) {
@@ -368,12 +368,11 @@ function draw(evt) {
         canvas.disabled = true;
         addClass(canvas, "out1");
     } else if (opt == 2) {
-        flag++;
-        if (flag == 1) {
-
+        newFlag++;
+        console.log(newFlag);
+        if (newFlag == 1) {
             posprev = getMousePos(canvas, evt);
         } else {
-
             showToast("Now click on calculate button to show result");
             if (volFlag)
                 textToSpeech("Now click on calculate button to show result");
@@ -381,7 +380,7 @@ function draw(evt) {
             removeClass(document.getElementById("calc"), "out");
             document.getElementById("calc").disabled = false;
             posnext = getMousePos(canvas, evt);
-            flag = 0;
+            newFlag = 0;
             ctx.moveTo(posprev.x, posprev.y);
             ctx.lineTo(posnext.x, posnext.y);
             ctx.strokeStyle = "#fa0505";
@@ -541,7 +540,20 @@ document.getElementById("calc").onclick = function () {
         }
 
     } else if (opt == 2) {
-        
+        let point1 = posprev;
+        let point2 = posnext;
+        let m = (point2.y - point1.y) / (point2.x - point1.x);
+        let countA=0,countB=0;
+        for(i=point1.x;i<=point2.x;i++){
+            y = m*(i - point2.x) + point2.y;
+            if (inside([i, y], polygon1) || inside([i, y], polygon3) || inside([i, y], polygon4) || inside([i, y], polygon6) || inside([i, y], polygon8)) {
+                countB++;
+            } else {
+                countA++;
+            }
+        }
+        document.getElementById("percentage-A").value = `${countA / (countA + countB) * 100}`;
+        document.getElementById("percentage-B").value = `${countB / (countA + countB) * 100}`;
     } else if (opt == 3) {
         
     }
