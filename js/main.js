@@ -38,7 +38,7 @@ function type(txt, cur = 0) {
     timerId = setTimeout(type, typeSpeed, txt, cur + 1);
 }
 // type("this is test")
-type("1. Firstly choose the material@2. Then click the load button to load the material@3. Then choose the mode spot,line or area@4. Then click on execute button to proceed@5. Then make the spot,line or area depending upon your selection@6. Lastly click on calculate button to show result");
+type("1. Load the sample by clicking on button@2. Choose any one mode spot, line, area (for making line click on any two points in the image)@3. Click on execute button@4. Then make the spot, line, area depending upon your selection@5. At last click on calculate button to see result");
 
 /*-----------------------volume-------------------------*/
 
@@ -220,6 +220,13 @@ document.getElementById("spot").onclick = function () {
     $("#line").removeClass("btn-dark");
     $("#area").removeClass("btn-dark");
     mode = 1;
+    document.getElementById("exec").disabled = false;
+    removeClass(document.getElementById("exec"), "out");
+    document.getElementById("calc").disabled = false;
+    removeClass(document.getElementById("calc"), "out");
+    canvas.disabled = false;
+    removeClass(canvas, "out1");
+    temp = 0;
 }
 
 document.getElementById("line").onclick = function () {
@@ -227,6 +234,13 @@ document.getElementById("line").onclick = function () {
     $("#line").addClass("btn-dark");
     $("#area").removeClass("btn-dark");
     mode = 2;
+    document.getElementById("exec").disabled = false;
+    removeClass(document.getElementById("exec"), "out");
+    document.getElementById("calc").disabled = false;
+    removeClass(document.getElementById("calc"), "out");
+    canvas.disabled = false;
+    removeClass(canvas, "out1");
+    temp = 0;
 }
 
 document.getElementById("area").onclick = function () {
@@ -234,6 +248,13 @@ document.getElementById("area").onclick = function () {
     $("#line").removeClass("btn-dark");
     $("#area").addClass("btn-dark");
     mode = 3;
+    document.getElementById("exec").disabled = false;
+    removeClass(document.getElementById("exec"), "out");
+    document.getElementById("calc").disabled = false;
+    removeClass(document.getElementById("calc"), "out");
+    canvas.disabled = false;
+    removeClass(canvas, "out1");
+    temp = 0;
 }
 
 /*--------------------execute-------------------------*/
@@ -282,7 +303,6 @@ document.getElementById("exec").onclick = function () {
         addClass(document.getElementById("exec"), "out");
         document.getElementById("calc").disabled = true;
         addClass(document.getElementById("calc"), "out");
-        ModeGroup("disable");
     }
 }
 
