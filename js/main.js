@@ -196,9 +196,17 @@ function drawCanvas() {
 
 document.getElementById("exec").disabled = true;
 addClass(document.getElementById("exec"), "out");
+addClass(document.getElementById("load"), "out");
+document.getElementById("load").disabled = true;
 document.getElementById("calc").disabled = true;
 addClass(document.getElementById("calc"), "out");
+addClass(document.getElementById("setav"), "out");
+document.getElementById("setav").disabled = true;
+addClass(document.getElementById("material1"), "out");
+document.getElementById("material1").disabled = true;
 ModeGroup("disable");
+
+var machineState = false;
 
 /*------------------------material select----------------------*/
 
@@ -210,8 +218,69 @@ document.getElementById("material1").onclick = function () {
     if (volFlag)
         textToSpeech("Now click on Load button to load sample");
     flag = 1;
+    if(machineState){
+        removeClass(document.getElementById("load"), "out");
+        document.getElementById("load").disabled = false;
+    }
 
 }
+
+function changeClass(mode){
+    if(mode){
+        $("#avslider").slider("option", "disabled", false);
+        removeClass(document.getElementById("setav"), "out");
+        document.getElementById("setav").disabled = false;
+    } else {
+        addClass(document.getElementById("material1"), "out");
+        document.getElementById("material1").disabled = true;
+        addClass(document.getElementById("load"), "out");
+        document.getElementById("load").disabled = true;
+        addClass(document.getElementById("exec"), "out");
+        document.getElementById("exec").disabled = true;
+        addClass(document.getElementById("calc"), "out");
+        document.getElementById("calc").disabled = true;
+        $("#avslider").slider("option", "disabled", true);
+        addClass(document.getElementById("setav"), "out");
+        document.getElementById("setav").disabled = true;
+        document.getElementById("spot").disabled = type;
+        document.getElementById("line").disabled = type;
+        document.getElementById("area").disabled = type;
+    }
+}
+document.getElementById("switchOn").onclick = function(){
+    if(machineState){
+        $("#switchOn").addClass("green");
+        $("#switchOn").html(`SWITCH ON`);
+        $("#switchOn").removeClass("red");
+        machineState = false;
+        showToast("Machine is switched off");
+        if(volFlag)
+        textToSpeech("Machine is switched off");
+    } else {
+        $("#switchOn").addClass("red");
+        $("#switchOn").html(`SWITCH OFF`);
+        $("#switchOn").removeClass("green");
+        machineState = true;
+        showToast("Machine is switched on");
+        if(volFlag)
+        textToSpeech("Machine is switched on");
+    }
+    changeClass(machineState);
+}
+var av;
+$("#setav").click(function () {
+    av = $("#avslider").slider("option", "value");
+    if(av || av == 0){
+        removeClass(document.getElementById("material1"), "out");
+        document.getElementById("material1").disabled = false;
+        $("#avslider").slider("option", "disabled", true);
+        addClass(document.getElementById("setav"), "out");
+        document.getElementById("setav").disabled = true;
+        showToast("Accelerating voltage has been set");
+        if(volFlag)
+        textToSpeech("Accelerating voltage has been set");
+    }
+  });
 
 /*------------------------mode select----------------------*/
 
@@ -336,6 +405,24 @@ document.getElementById("load").onclick = function () {
             textToSpeech("Now Select The Mode");
         drawCanvas();
     }
+}
+
+var task = 1;
+
+document.getElementById("nextTask").onclick = function(){
+    task = 2;
+    document.getElementById("nextTask").style.display = "none";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    temp = 0;
+    removeClass(document.getElementById("exec"), "out");
+    document.getElementById("exec").disabled = false;
+    document.getElementById("calc").disabled = false;
+    removeClass(document.getElementById("calc"), "out");
+    canvas.disabled = false;
+    canvas.style.display = "none";
+    removeClass(canvas, "out1");
+    document.getElementById("percentage-A").value = "";
+    document.getElementById("percentage-B").value = "";
 }
 
 
@@ -550,46 +637,48 @@ function showToast(msg, type1 = 0) {
 /*--------------------graph-------------------------*/
 
 document.getElementById("calc").onclick = function () {
-    if (opt == 1) {
-        var pos = tempPos;
-        if (inside([pos.x, pos.y], polygon1) || inside([pos.x, pos.y], polygon3) || inside([pos.x, pos.y], polygon4) || inside([pos.x, pos.y], polygon6) || inside([pos.x, pos.y], polygon8)) {
-            document.getElementById("percentage-A").value = "0%";
-            document.getElementById("percentage-B").value = "100%";
-        } else {
-            document.getElementById("percentage-A").value = "100%";
-            document.getElementById("percentage-B").value = "0%";
-        }
-
-    } else if (opt == 2) {
-        let point1 = posprev;
-        let point2 = posnext;
-        let m = (point2.y - point1.y) / (point2.x - point1.x);
-        let countA=0,countB=0;
-        for(i=point1.x;i<=point2.x;i++){
-            y = m*(i - point2.x) + point2.y;
-            if (inside([i, y], polygon1) || inside([i, y], polygon3) || inside([i, y], polygon4) || inside([i, y], polygon6) || inside([i, y], polygon8)) {
-                countB++;
+    if(task == 1){
+        if (opt == 1) {
+            var pos = tempPos;
+            if (inside([pos.x, pos.y], polygon1) || inside([pos.x, pos.y], polygon3) || inside([pos.x, pos.y], polygon4) || inside([pos.x, pos.y], polygon6) || inside([pos.x, pos.y], polygon8)) {
+                document.getElementById("percentage-A").value = "0%";
+                document.getElementById("percentage-B").value = "100%";
             } else {
-                countA++;
+                document.getElementById("percentage-A").value = "100%";
+                document.getElementById("percentage-B").value = "0%";
             }
-        }
-        document.getElementById("percentage-A").value = `${countA / (countA + countB) * 100}%`;
-        document.getElementById("percentage-B").value = `${countB / (countA + countB) * 100}%`;
-    } else if (opt == 3) {
-        let side = Math.sqrt(parseInt(document.getElementById("mode").value));
-        let center = tempPos;
-        let countA=0,countB=0;
-        for(y=center.y;y<=center.y+side;y++){
-            for(x=center.x;x<=center.x+side;x++){
-                if (inside([x, y], polygon1) || inside([x, y], polygon3) || inside([x, y], polygon4) || inside([x, y], polygon6) || inside([x, y], polygon8)) {
+    
+        } else if (opt == 2) {
+            let point1 = posprev;
+            let point2 = posnext;
+            let m = (point2.y - point1.y) / (point2.x - point1.x);
+            let countA=0,countB=0;
+            for(i=point1.x;i<=point2.x;i++){
+                y = m*(i - point2.x) + point2.y;
+                if (inside([i, y], polygon1) || inside([i, y], polygon3) || inside([i, y], polygon4) || inside([i, y], polygon6) || inside([i, y], polygon8)) {
                     countB++;
                 } else {
                     countA++;
                 }
             }
+            document.getElementById("percentage-A").value = `${countA / (countA + countB) * 100}%`;
+            document.getElementById("percentage-B").value = `${countB / (countA + countB) * 100}%`;
+        } else if (opt == 3) {
+            let side = Math.sqrt(parseInt(document.getElementById("mode").value));
+            let center = tempPos;
+            let countA=0,countB=0;
+            for(y=center.y;y<=center.y+side;y++){
+                for(x=center.x;x<=center.x+side;x++){
+                    if (inside([x, y], polygon1) || inside([x, y], polygon3) || inside([x, y], polygon4) || inside([x, y], polygon6) || inside([x, y], polygon8)) {
+                        countB++;
+                    } else {
+                        countA++;
+                    }
+                }
+            }
+            document.getElementById("percentage-A").value = `${countA / (countA + countB) * 100}%`;
+            document.getElementById("percentage-B").value = `${countB / (countA + countB) * 100}%`;
         }
-        document.getElementById("percentage-A").value = `${countA / (countA + countB) * 100}%`;
-        document.getElementById("percentage-B").value = `${countB / (countA + countB) * 100}%`;
     }
     if (temp == 1) {
         showToast("Now see result in output tab");
