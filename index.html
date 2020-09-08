@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+        integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/jquery-ui.css">
@@ -18,10 +19,12 @@
                     <center>
                         <div class="btn-group btn-group-lg align-self-center scenes" role="group"
                             aria-label="Basic example">
-                            <button type="button" data-scene="1" class="btn btn-primary active" id="prog">Elemental Mapping</button>
+                            <button type="button" data-scene="1" class="btn btn-primary active" id="prog">Elemental
+                                Mapping</button>
                         </div>
                     </center>
-                    <i id="vol" class="fas fa-volume-up" style="position:absolute;right:10px;top:18px;cursor: pointer;"></i>
+                    <i id="vol" class="fas fa-volume-up"
+                        style="position:absolute;right:10px;top:18px;cursor: pointer;"></i>
                 </div>
             </div>
         </div>
@@ -74,7 +77,7 @@
                             <button class="but sm w-100 orange col-6" id="calc">Calculate</button>
                         </div><br><br>
                         <button class="but sm w-100 red col-12" id="rest">Reset</button>
-    
+
                     </div>
                 </div>
             </div>
@@ -94,15 +97,17 @@
                     </div>
                     <div class="panel padd">
                         <div id="imgSeen"></div>
-                        <canvas
-                            style="position:absolute;top:55px;display:none;"
-                            onclick="draw(event)" id="myCanvas" width=700 height=500
-                            style="z-index: 10;"></canvas>
+                        <canvas style="position:absolute;top:55px;display:none;" onclick="draw(event)" id="myCanvas"
+                            width=700 height=500 style="z-index: 10;"></canvas>
 
                         <div id="sample" style="display: none;">
                             <div class="row m-3">
-                                <div class="col-6"><label class="col-3">A</label><span style="display: inline-block;background-color: #ebe9e6;width:70%;height:20px;border-radius: 20px;"></span></div>
-                                <div class="col-6"><label class="col-3">B</label><span style="display: inline-block;background-color: #000000;width:70%;height:20px;border-radius: 20px;"></span></div>
+                                <div class="col-6"><label class="col-3 labelA">A</label><span
+                                        style="display: inline-block;background-color: #ebe9e6;width:70%;height:20px;border-radius: 20px;"></span>
+                                </div>
+                                <div class="col-6"><label class="col-3 labelB">B</label><span
+                                        style="display: inline-block;background-color: #000000;width:70%;height:20px;border-radius: 20px;"></span>
+                                </div>
                             </div>
                             <form class="row m-3">
                                 <label class="col-3">Percentage of A : </label>
@@ -110,6 +115,8 @@
                                 <label class="col-3">Percentage of B : </label>
                                 <input type="text" id="percentage-B" class="form-control col-3" disabled>
                             </form>
+                            <span id="remark" style="color:red;display: none;">** where C is 40 % of A and 60 % of B</span>
+                            <div id="chartContainer" style="height: 370px; width: 100%;display:none;"></div><br><br>
                             <button class="but sm w-100 red col-12" id="nextTask">Next Task</button>
                         </div>
                     </div>
@@ -125,35 +132,36 @@
         <script src="./js/bootstrap.min.js"></script>
         <script src="./js/jquery-ui.min.js"></script>
         <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
         <script src="./js/main.js"></script>
         <script>
             var avhandle = $("#avslider").find(".custom-handle");
             $("#avslider").slider({
-        min: 0,
-        max: 3,
-        disabled: true,
-        create: function () {
-          avhandle.text("5kv");
-        },
-        slide: function (event, ui) {
-          var txt = "5Kv";
-          switch (ui.value) {
-            case 0:
-              txt = "5kv";
-              break;
-            case 1:
-              txt = "10kv";
-              break;
-            case 2:
-              txt = "15kv";
-              break;
-            case 3:
-              txt = "20kv";
-              break;
-          }
-          avhandle.text(txt);
-        }
-      });
+                min: 0,
+                max: 3,
+                disabled: true,
+                create: function () {
+                    avhandle.text("5kv");
+                },
+                slide: function (event, ui) {
+                    var txt = "5Kv";
+                    switch (ui.value) {
+                        case 0:
+                            txt = "5kv";
+                            break;
+                        case 1:
+                            txt = "10kv";
+                            break;
+                        case 2:
+                            txt = "15kv";
+                            break;
+                        case 3:
+                            txt = "20kv";
+                            break;
+                    }
+                    avhandle.text(txt);
+                }
+            });
         </script>
 </body>
 

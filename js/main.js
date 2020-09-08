@@ -410,9 +410,24 @@ document.getElementById("load").onclick = function () {
 var task = 1;
 
 document.getElementById("nextTask").onclick = function(){
-    task = 2;
-    document.getElementById("nextTask").style.display = "none";
+    if(task == 1){
+        document.querySelectorAll(".labelA").forEach(element => {
+            element.innerHTML = "C";
+        });
+        document.getElementById("remark").style.display="";
+        task = 2;
+        document.getElementById("nextTask").innerHTML = "Previous Task";
+    }
+    else{
+        document.querySelectorAll(".labelA").forEach(element => {
+            element.innerHTML = "A";
+        });
+        document.getElementById("remark").style.display="none";
+        task = 1;
+        document.getElementById("nextTask").innerHTML = "Next Task";
+    }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
     temp = 0;
     removeClass(document.getElementById("exec"), "out");
     document.getElementById("exec").disabled = false;
@@ -420,6 +435,7 @@ document.getElementById("nextTask").onclick = function(){
     removeClass(document.getElementById("calc"), "out");
     canvas.disabled = false;
     canvas.style.display = "none";
+    document.getElementById("chartContainer").style.display = "none";
     removeClass(canvas, "out1");
     document.getElementById("percentage-A").value = "";
     document.getElementById("percentage-B").value = "";
@@ -661,8 +677,60 @@ document.getElementById("calc").onclick = function () {
                     countA++;
                 }
             }
-            document.getElementById("percentage-A").value = `${countA / (countA + countB) * 100}%`;
-            document.getElementById("percentage-B").value = `${countB / (countA + countB) * 100}%`;
+            document.getElementById("chartContainer").style.display = "";
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                title: {
+                    text: "Line Analysis"
+                },
+                axisY: {
+                    title: "Intensity"
+                },
+                data: [{
+                    type: "splineArea",
+                    showInLegend:true,
+                    legendMarkerType: "circle",
+                    color : "red",
+                    name : "A",
+                    markerSize: 5,
+                    dataPoints: [{
+                            x: 0,
+                            y: 0
+                        },
+                        {
+                            x: 30,
+                            y: Math.round(countA / (countA + countB) * 100)
+                        },
+                        {
+                            x: 60,
+                            y: 0
+                        }
+                    ]
+                },{
+                    type: "splineArea",
+                    showInLegend:true,
+                    legendMarkerType: "circle",
+                    color : "green",
+                    name : "B",
+                    markerSize: 5,
+                    dataPoints: [{
+                            x: 60,
+                            y: 0
+                        },
+                        {
+                            x: 90,
+                            y: Math.round(countB / (countA + countB) * 100)
+                        },
+                        {
+                            x: 120,
+                            y: 0
+                        }
+                    ]
+                }]
+            });
+            chart.render();
+            document.getElementById("percentage-A").value = `${Math.round(countA / (countA + countB) * 100)}%`;
+            document.getElementById("percentage-B").value = `${Math.round(countB / (countA + countB) * 100)}%`;
         } else if (opt == 3) {
             let side = Math.sqrt(parseInt(document.getElementById("mode").value));
             let center = tempPos;
@@ -676,10 +744,109 @@ document.getElementById("calc").onclick = function () {
                     }
                 }
             }
-            document.getElementById("percentage-A").value = `${countA / (countA + countB) * 100}%`;
-            document.getElementById("percentage-B").value = `${countB / (countA + countB) * 100}%`;
+            document.getElementById("percentage-A").value = `${Math.round(countA / (countA + countB) * 100)}%`;
+            document.getElementById("percentage-B").value = `${Math.round(countB / (countA + countB) * 100)}%`;
         }
     }
+
+    if(task == 2){
+        if (opt == 1) {
+            var pos = tempPos;
+            if (inside([pos.x, pos.y], polygon1) || inside([pos.x, pos.y], polygon3) || inside([pos.x, pos.y], polygon4) || inside([pos.x, pos.y], polygon6) || inside([pos.x, pos.y], polygon8)) {
+                document.getElementById("percentage-A").value = "0%";
+                document.getElementById("percentage-B").value = "100%";
+            } else {
+                document.getElementById("percentage-A").value = "40%";
+                document.getElementById("percentage-B").value = "60%";
+            }
+    
+        } else if (opt == 2) {
+            let point1 = posprev;
+            let point2 = posnext;
+            let m = (point2.y - point1.y) / (point2.x - point1.x);
+            let countA=0,countB=0;
+            for(i=point1.x;i<=point2.x;i++){
+                y = m*(i - point2.x) + point2.y;
+                if (inside([i, y], polygon1) || inside([i, y], polygon3) || inside([i, y], polygon4) || inside([i, y], polygon6) || inside([i, y], polygon8)) {
+                    countB++;
+                } else {
+                    countA += 0.4;
+                    countB += 0.6
+                }
+            }
+            document.getElementById("chartContainer").style.display = "";
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                title: {
+                    text: "Line Analysis"
+                },
+                axisY: {
+                    title: "Intensity"
+                },
+                data: [{
+                    type: "splineArea",
+                    showInLegend:true,
+                    legendMarkerType: "circle",
+                    color : "red",
+                    name : "A",
+                    markerSize: 5,
+                    dataPoints: [{
+                            x: 0,
+                            y: 0
+                        },
+                        {
+                            x: 30,
+                            y: Math.round(countA / (countA + countB) * 100)
+                        },
+                        {
+                            x: 60,
+                            y: 0
+                        }
+                    ]
+                },{
+                    type: "splineArea",
+                    showInLegend:true,
+                    legendMarkerType: "circle",
+                    color : "green",
+                    name : "B",
+                    markerSize: 5,
+                    dataPoints: [{
+                            x: 60,
+                            y: 0
+                        },
+                        {
+                            x: 90,
+                            y: Math.round(countB / (countA + countB) * 100)
+                        },
+                        {
+                            x: 120,
+                            y: 0
+                        }
+                    ]
+                }]
+            });
+            chart.render();
+            document.getElementById("percentage-A").value = `${Math.round(countA / (countA + countB) * 100)}%`;
+            document.getElementById("percentage-B").value = `${Math.round(countB / (countA + countB) * 100)}%`;
+        } else if (opt == 3) {
+            let side = Math.sqrt(parseInt(document.getElementById("mode").value));
+            let center = tempPos;
+            let countA=0,countB=0;
+            for(y=center.y;y<=center.y+side;y++){
+                for(x=center.x;x<=center.x+side;x++){
+                    if (inside([x, y], polygon1) || inside([x, y], polygon3) || inside([x, y], polygon4) || inside([x, y], polygon6) || inside([x, y], polygon8)) {
+                        countB++;
+                    } else {
+                        countA += 0.4;
+                        countB += 0.6
+                    }
+                }
+            }
+            document.getElementById("percentage-A").value = `${Math.round(countA / (countA + countB) * 100)}%`;
+            document.getElementById("percentage-B").value = `${Math.round(countB / (countA + countB) * 100)}%`;
+        }
+    }
+
     if (temp == 1) {
         showToast("Now see result in output tab");
         if(volFlag)
