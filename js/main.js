@@ -394,6 +394,7 @@ document.getElementById("load").onclick = function () {
         return;
     }
     if (opt != 0) {
+        document.getElementById("machineImage").src = "./images/sem.gif";
         document.getElementById("sample").style.display="";
         ModeGroup("enable");
         addClass(document.getElementById("load"), "out");
@@ -668,15 +669,61 @@ document.getElementById("calc").onclick = function () {
             let point1 = posprev;
             let point2 = posnext;
             let m = (point2.y - point1.y) / (point2.x - point1.x);
+            console.log("Slope : ",m);
             let countA=0,countB=0;
+            let timer = 0;
+            let points1 = [],points2 = [];
             for(i=point1.x;i<=point2.x;i++){
                 y = m*(i - point2.x) + point2.y;
+
+                // debugging
+                console.log("start");
+                if(inside([i,y],polygon1)){
+                    console.log("Polygon1");
+                }
+                else if(inside([i,y],polygon2)){
+                    console.log("Polygon2");
+                }
+                else if(inside([i,y],polygon3)){
+                    console.log("Polygon3");
+                }
+                else if(inside([i,y],polygon4)){
+                    console.log("Polygon4");
+                }
+                else if(inside([i,y],polygon5)){
+                    console.log("Polygon5");
+                }
+                else if(inside([i,y],polygon6)){
+                    console.log("Polygon6");
+                }
+                else if(inside([i,y],polygon7)){
+                    console.log("Polygon7");
+                }
+                else if(inside([i,y],polygon8)){
+                    console.log("Polygon8");
+                }
+                else if(inside([i,y],polygon9)){
+                    console.log("Polygon9");
+                }
+                else if(inside([i,y],polygon10)){
+                    console.log("Polygon10");
+                }
+                else{
+                    console.log("No polygon found");
+                }
+
+                console.log("end");
+
                 if (inside([i, y], polygon1) || inside([i, y], polygon3) || inside([i, y], polygon4) || inside([i, y], polygon6) || inside([i, y], polygon8)) {
                     countB++;
                 } else {
                     countA++;
                 }
+                points1.push({x:timer,y:countA * 100 / (countA + countB)});
+                points2.push({x:timer,y:countB * 100 / (countA + countB)});
+                timer += 1;
             }
+            console.log(countA,countB);
             document.getElementById("chartContainer").style.display = "";
             var chart = new CanvasJS.Chart("chartContainer", {
                 animationEnabled: true,
@@ -686,46 +733,23 @@ document.getElementById("calc").onclick = function () {
                 axisY: {
                     title: "Intensity"
                 },
+                axisX: {
+                    title: "Voltage"
+                },
                 data: [{
-                    type: "splineArea",
+                    type: "spline",
                     showInLegend:true,
                     legendMarkerType: "circle",
-                    color : "red",
                     name : "A",
                     markerSize: 5,
-                    dataPoints: [{
-                            x: 0,
-                            y: 0
-                        },
-                        {
-                            x: 30,
-                            y: Math.round(countA / (countA + countB) * 100)
-                        },
-                        {
-                            x: 60,
-                            y: 0
-                        }
-                    ]
+                    dataPoints: points1
                 },{
-                    type: "splineArea",
+                    type: "spline",
                     showInLegend:true,
                     legendMarkerType: "circle",
-                    color : "green",
                     name : "B",
                     markerSize: 5,
-                    dataPoints: [{
-                            x: 60,
-                            y: 0
-                        },
-                        {
-                            x: 90,
-                            y: Math.round(countB / (countA + countB) * 100)
-                        },
-                        {
-                            x: 120,
-                            y: 0
-                        }
-                    ]
+                    dataPoints: points2
                 }]
             });
             chart.render();
@@ -765,6 +789,8 @@ document.getElementById("calc").onclick = function () {
             let point2 = posnext;
             let m = (point2.y - point1.y) / (point2.x - point1.x);
             let countA=0,countB=0;
+            let timer = 0;
+            let points1 = [],points2 = [];
             for(i=point1.x;i<=point2.x;i++){
                 y = m*(i - point2.x) + point2.y;
                 if (inside([i, y], polygon1) || inside([i, y], polygon3) || inside([i, y], polygon4) || inside([i, y], polygon6) || inside([i, y], polygon8)) {
@@ -773,6 +799,9 @@ document.getElementById("calc").onclick = function () {
                     countA += 0.4;
                     countB += 0.6
                 }
+                points1.push({x:timer,y:countA * 100 / (countA + countB)});
+                points2.push({x:timer,y:countB * 100 / (countA + countB)});
+                timer += 1;
             }
             document.getElementById("chartContainer").style.display = "";
             var chart = new CanvasJS.Chart("chartContainer", {
@@ -783,46 +812,23 @@ document.getElementById("calc").onclick = function () {
                 axisY: {
                     title: "Intensity"
                 },
+                axisX: {
+                    title: "Voltage"
+                },
                 data: [{
-                    type: "splineArea",
+                    type: "spline",
                     showInLegend:true,
                     legendMarkerType: "circle",
-                    color : "red",
                     name : "A",
                     markerSize: 5,
-                    dataPoints: [{
-                            x: 0,
-                            y: 0
-                        },
-                        {
-                            x: 30,
-                            y: Math.round(countA / (countA + countB) * 100)
-                        },
-                        {
-                            x: 60,
-                            y: 0
-                        }
-                    ]
+                    dataPoints: points1
                 },{
-                    type: "splineArea",
+                    type: "spline",
                     showInLegend:true,
                     legendMarkerType: "circle",
-                    color : "green",
                     name : "B",
                     markerSize: 5,
-                    dataPoints: [{
-                            x: 60,
-                            y: 0
-                        },
-                        {
-                            x: 90,
-                            y: Math.round(countB / (countA + countB) * 100)
-                        },
-                        {
-                            x: 120,
-                            y: 0
-                        }
-                    ]
+                    dataPoints: points2
                 }]
             });
             chart.render();
@@ -874,6 +880,7 @@ function inside(point, vs) {
             (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
         if (intersect) inside = !inside;
     }
+    console.log(inside);
 
     return inside;
 }
